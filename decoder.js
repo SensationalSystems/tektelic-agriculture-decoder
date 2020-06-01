@@ -65,7 +65,13 @@ function Decoder(bytes, port) {
 
         // soil temp - built in probe version
         if(0x02 === bytes[i] && 0x02 === bytes[i+1]) {
-            params.soil_temp = (bytes[i+2] << 8) | bytes[i+3];
+
+            // raw value in mV
+            var soil_temp_raw = (bytes[i+2] << 8) | bytes[i+3];
+            params.soil_temp_raw = soil_temp_raw;
+
+            // convert to degrees C
+            params.soil_temp = -32.46 * Math.log(soil_temp_raw) + 236.36
             i = i+3;
         }
         

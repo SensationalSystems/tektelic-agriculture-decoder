@@ -23,17 +23,18 @@ This should be turned into a JSON object that looks like this:
   "ambient_temp": 17,
   "soil_gwc": 0.8,
   "soil_moisture_raw": 1330,
-  "soil_temp": 888
+  "soil_temp": 15.989977222474153,
+  "soil_temp_raw": 888
 }
 ```
 (actual data from our test sensor)
 
-## NOTE: Buggy temperature values
-We're working with TEKTELIC to fix the soil temperature calculations for the built-in probes version.
+## Soil temperature and moisture - built in probes
+The sensor returns raw readings for soil temperature and moisture, these are the "raw" values in the decoded JSON object. These values are converted using the lookup tables and functions from TEKTELIC's docs: https://support.tektelic.com/portal/kb/articles/agriculture-sensor-faq
 
 
 ## Calibration notes
-The sensor version with built in probes needs to have its moisture reading calibrated for best accuracy. This is done by taking a "dry" reading from the sensor before deploying it. Let the unit send one uplink with the probes facing up into free space. This is the reference reaing you will see in the decoded payload as `soil_moisture_raw`. Multiply this value by 1000 and put it in the decoder as the `moisture_calibration` number at the top.
+The sensor version with built in probes needs to have its moisture reading calibrated for best accuracy. This is done by taking a "dry" reading from the sensor before deploying it. Let the unit send one uplink with the probes facing up into free space. This is the reference reading you will see in the decoded payload as `soil_moisture_raw`. Multiply this value by 1000 and put it in the decoder as the `moisture_calibration` number at the top.
 
 This calibration value is used in the calculation of the Gravimetric Water Content of the soil, returned as `soil_gwc`.
 
